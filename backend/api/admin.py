@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import AuthorDetails
+from .models import CreaterDetails
 
 
 # Register your models here.
 
 
-@admin.register(AuthorDetails)
-class AuthorDetailModel(admin.ModelAdmin):
+@admin.register(CreaterDetails)
+class CreatorDetailModel(admin.ModelAdmin):
     list_filter = ('firstname', 'lastname')
     list_display = ('firstname', 'lastname')
