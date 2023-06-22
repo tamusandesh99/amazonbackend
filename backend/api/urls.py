@@ -1,10 +1,11 @@
 
-
-from django.urls import path
-from .views import creator_list, single_creator
+from django.contrib import admin
+from django.urls import path, include
+# from django.conf.urls import url
+from .views import *
 
 
 urlpatterns = [
-    path('creators/', creator_list),
-    path('creators/<int:pk>/', single_creator)
+    path('admin/', admin.site.urls),
+    path('', ReactView.as_view(), name="blah")
 ]
