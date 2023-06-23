@@ -5,5 +5,5 @@ from .models import *
 class CreatorDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreaterDetails
-        fields = ['firstname', 'lastname', 'email', 'website_link', 'description']
+        fields = ['id', 'firstname', 'lastname', 'email', 'website_link', 'description']
 
