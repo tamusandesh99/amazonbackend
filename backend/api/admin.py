@@ -7,5 +7,5 @@ from .models import CreaterDetails
 
 @admin.register(CreaterDetails)
 class CreatorDetailModel(admin.ModelAdmin):
-    list_filter = ('firstname', 'lastname')
-    list_display = ('firstname', 'lastname')
+    list_filter = ('username', 'email')
+    list_display = ('username', 'email')

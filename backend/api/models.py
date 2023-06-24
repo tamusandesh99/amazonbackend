@@ -5,11 +5,11 @@ from django.db import models
 
 
 class CreaterDetails(models.Model):
-    firstname = models.CharField(max_length=30)
-    lastname = models.CharField(max_length=30)
+    username = models.CharField(max_length=30)
+    password = models.CharField(max_length=30, default='')
     email = models.CharField(max_length=30)
     website_link = models.CharField(max_length=30)
-    description = models.TextField()
+    tech_stack = models.TextField()
 
     def __str__(self):
-        return self.firstname
+        return self.username

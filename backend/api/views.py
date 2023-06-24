@@ -27,11 +27,11 @@ class ReactView(APIView):
         if email:
             creators = creators.filter(email=email)
         output = [{"id": output.id,
-                   "firstname": output.firstname,
-                   "lastname": output.lastname,
+                   "username": output.username,
+                   "password": output.password,
                    "email": output.email,
                    "website_link": output.website_link,
-                   "description": output.description
+                   "tech_stack": output.tech_stack
                    }
                   for output in creators
                   ]
