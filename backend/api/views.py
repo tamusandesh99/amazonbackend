@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
+from django.contrib.auth import authenticate
 
 
 # Create your views here.
@@ -67,41 +68,24 @@ class ReactDetailView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'pk'
     queryset = CreaterDetails.objects.all()
     serializer_class = CreatorDetailSerializer
-#
-# @api_view(['GET', 'POST'])
-# def creator_list(request):
-#     if request.method == 'GET':
-#         creators = CreaterDetails.objects.all()
-#         serializer = CreatorDetailSerializer(creators, many=True)
-#         return Response(serializer.data)
-#
-#     elif request.method == 'POST':
-#         serializer = CreatorDetailSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def single_creator(request, pk):
-#     try:
-#         creator = CreaterDetails.objects.get(pk=pk)
-#
-#     except CreaterDetails.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#
-#     if request.method == 'GET':
-#         serializer = CreatorDetailSerializer(creator)
-#         return Response(serializer.data)
-#
-#     elif request.method == 'PUT':
-#         serializer = CreatorDetailSerializer(creator, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#     elif request.method == 'DELETE':
-#         creator.delete()
-#         return Response(status=status.HTTP_205_RESET_CONTENT)
+
+
+class ReactLoginView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        # Check if both username and password are provided
+        if not username or not password:
+            return Response({'error': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Authenticate user
+        user = authenticate(username=username, password=password)
+
+        # Check if authentication is successful
+        if user is not None:
+            # Perform any additional actions upon successful login, such as generating a token or session
+            return Response({'message': 'Login successful.'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+
