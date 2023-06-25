@@ -6,7 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -74,7 +75,7 @@ class ReactLoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
-
+        users = User.objects.all()
         # Check if both username and password are provided
         if not username or not password:
             return Response({'error': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -84,6 +85,7 @@ class ReactLoginView(APIView):
 
         # Check if authentication is successful
         if user is not None:
+            login(request, user)
             # Perform any additional actions upon successful login, such as generating a token or session
             return Response({'message': 'Login successful.'}, status=status.HTTP_200_OK)
         else:
