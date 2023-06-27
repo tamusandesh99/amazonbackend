@@ -102,7 +102,7 @@ DATABASES = {
 
 
 # User Model
-AUTH_USER_MODEL = 'user_api.AppUser'
+AUTH_USER_MODEL = 'api.CreatorDetails'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
