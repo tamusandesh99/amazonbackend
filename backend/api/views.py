@@ -112,28 +112,28 @@ class UserView(APIView):
     #         raise CreaterDetails.DoesNotExist(f"Creator with ID {pk} does not exist.")
 
 
-class ReactDetailView(generics.RetrieveUpdateDestroyAPIView):
-    lookup_field = 'pk'
-    queryset = CreaterDetails.objects.all()
-    serializer_class = CreatorDetailSerializer
-
-
-class ReactLoginView(APIView):
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        users = User.objects.all()
-        # Check if both username and password are provided
-        if not username or not password:
-            return Response({'error': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Authenticate user
-        user = authenticate(username=username, password=password)
-
-        # Check if authentication is successful
-        if user is not None:
-            login(request, user)
-            # Perform any additional actions upon successful login, such as generating a token or session
-            return Response({'message': 'Login successful.'}, status=status.HTTP_200_OK)
-        else:
-            return Response({'error': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+# class ReactDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     lookup_field = 'pk'
+#     queryset = CreaterDetails.objects.all()
+#     serializer_class = CreatorDetailSerializer
+#
+#
+# class ReactLoginView(APIView):
+#     def post(self, request):
+#         username = request.data.get('username')
+#         password = request.data.get('password')
+#         users = User.objects.all()
+#         # Check if both username and password are provided
+#         if not username or not password:
+#             return Response({'error': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+#
+#         # Authenticate user
+#         user = authenticate(username=username, password=password)
+#
+#         # Check if authentication is successful
+#         if user is not None:
+#             login(request, user)
+#             # Perform any additional actions upon successful login, such as generating a token or session
+#             return Response({'message': 'Login successful.'}, status=status.HTTP_200_OK)
+#         else:
+#             return Response({'error': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
