@@ -38,7 +38,7 @@ class UserLogin(APIView):
     def post(self, request):
         data = request.data
         assert validate_email(data)
-        assert validate_username(data)
+        # assert validate_username(data)
         assert validate_password(data)
 
         serializer = CreatorDetailLoginSerializer(data=data)

@@ -13,10 +13,9 @@ class CreatorDetailSerializer(serializers.ModelSerializer):
         fields = ['email', 'username']
 
 
-class CreatorDetailLoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        email = serializers.EmailField()
-        password = serializers.CharField()
+class CreatorDetailLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
 
     def check_user(self, clean_data):
         user = authenticate(username=clean_data['email'], password=clean_data['password'])
@@ -28,4 +27,10 @@ class CreatorDetailLoginSerializer(serializers.ModelSerializer):
 class CreatorDetailRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ['__all__']
+        fields = '__all__'
+
+    def create(self, clean_data):
+        user_obj = UserModel.objects.create_user(email=clean_data['email'], password=clean_data['password'])
+        user_obj.username = clean_data['username']
+        user_obj.save()
+        return user_obj
