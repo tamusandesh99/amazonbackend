@@ -1,17 +1,9 @@
-from django.shortcuts import render, HttpResponse
-from django.utils.decorators import method_decorator
 from rest_framework.authentication import SessionAuthentication
-
-from .models import *
-from .serializers import *
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework import generics
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from .validations import *
 from .serializers import *
 

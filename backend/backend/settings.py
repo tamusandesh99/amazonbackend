@@ -26,6 +26,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost',
+#     'http://127.0.0.1:3000',
+#     'http://0.0.0.0',
+# ]
+
 CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
