@@ -8,7 +8,7 @@ def custom_validation(data):
     email = data['email'].strip()
     username = data['username'].strip()
     password = data['password'].strip()
-    website_link = data['website_link'].strip()
+    # website_link = data['website_link'].strip()
     ##
     if not email or UserModel.objects.filter(email=email).exists():
         raise ValidationError('choose another email')
@@ -19,9 +19,9 @@ def custom_validation(data):
     if not username:
         raise ValidationError('choose another username')
 
-    if not website_link:
-        raise ValidationError('Enter website link')
-    return data
+    # if not website_link:
+    #     raise ValidationError('Enter website link')
+    # return data
 
 
 def validate_email(data):
