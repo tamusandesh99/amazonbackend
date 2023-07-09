@@ -22,6 +22,7 @@ def custom_validation(data):
     # if not website_link:
     #     raise ValidationError('Enter website link')
     # return data
+    return {'email': email, 'username': username, 'password': password}
 
 
 def validate_email(data):

@@ -19,11 +19,14 @@ class UserRegister(APIView):
 
     def post(self, request):
         clean_data = custom_validation(request.data)
+        print(clean_data)
         serializer = CreatorDetailRegisterSerializer(data=clean_data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.create(clean_data)
             if user:
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(clean_data)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
