@@ -68,6 +68,19 @@ class UserLogout(APIView):
             return Response({'error': 'Something went wrong when logging out'})
 
 
+@method_decorator(csrf_protect, name='dispatch')
+class CheckAuthenticated(APIView):
+    def get(self, request, format=None):
+        try:
+            isAuthenticated = User.is_authenticated
+            if isAuthenticated:
+                return Response({'isAuthenticated': 'success'})
+            else:
+                return Response({'isAuthenticated': 'error'})
+        except:
+            return Response({'error': 'Something went wrong'})
+
+
 class UserView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (SessionAuthentication,)
