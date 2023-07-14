@@ -29,12 +29,14 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost',
+    'http://localhost:3000',
+    'https://localhost:3000',
     'http://127.0.0.1:3000',
     'http://0.0.0.0',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = False
 # Application definition
 
 INSTALLED_APPS = [
@@ -107,7 +109,6 @@ DATABASES = {
         'PORT': my_secrets.PORT,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
