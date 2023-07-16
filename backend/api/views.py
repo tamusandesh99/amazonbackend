@@ -48,11 +48,11 @@ class UserLogin(APIView):
         assert validate_username(data)
         # assert validate_username(data)
         assert validate_password(data)
-        print("checks here")
         try:
             serializer = CreatorDetailLoginSerializer(data=data)
             if serializer.is_valid(raise_exception=True):
                 user = serializer.check_user(data)
+                print(user)
                 login(request, user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
         except:
