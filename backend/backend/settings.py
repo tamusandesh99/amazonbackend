@@ -45,6 +45,7 @@ CSRF_COOKIE_SECURE = False
 
 INSTALLED_APPS = [
     'api.apps.ApiConfig',
+    'user_profile.apps.UserProfileConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,7 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,8 @@ MIDDLEWARE = [
 ]
 
 # User Model
-AUTH_USER_MODEL = 'api.CreatorDetails'
+# AUTH_USER_MODEL = 'api.CreatorDetails'
+AUTH_USER_MODEL = 'user_profile.UserProfile'
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.IsAuthenticated'
