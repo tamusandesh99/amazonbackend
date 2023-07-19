@@ -11,7 +11,7 @@ class GetUserProfileView(APIView):
         try:
             user = self.request.user
             username = user.username
-
+            print(username)
             user_profile = UserProfile.objects.get(user=user)
             user_profile = UserProfileSerializer(user_profile)
 
