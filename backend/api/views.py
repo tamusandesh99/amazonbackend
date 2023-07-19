@@ -1,6 +1,4 @@
 from rest_framework.authentication import SessionAuthentication
-from django.contrib.auth.models import User
-from django.contrib import auth
 from rest_framework import permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -9,7 +7,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from .validations import *
 from .serializers import *
-
+from user_profile.models import UserProfile
 
 # Create your views here.
 
@@ -24,6 +22,7 @@ class UserRegister(APIView):
         if serializer.is_valid(raise_exception=True):
             user = serializer.create(clean_data)
             if user:
+                UserProfile.objects.create(user=user)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(clean_data)
@@ -68,8 +67,9 @@ class UserLogout(APIView):
 @method_decorator(csrf_protect, name='dispatch')
 class CheckAuthenticated(APIView):
     def get(self, request, format=None):
+        user = self.request.user
         try:
-            isAuthenticated = User.is_authenticated
+            isAuthenticated = user.is_authenticated
             if isAuthenticated:
                 return Response({'isAuthenticated': 'success'})
             else:

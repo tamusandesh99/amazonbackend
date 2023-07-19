@@ -27,7 +27,7 @@ class UpdateUserProfileView(APIView):
             username = user.username
 
             data = self.request.data
-            website_link = data['first_name']
+            website_link = data['website_link']
 
             UserProfile.objects.filter(user=user).update(website_link=website_link)
 

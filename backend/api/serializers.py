@@ -42,4 +42,5 @@ class CreatorDetailRegisterSerializer(serializers.ModelSerializer):
         user_obj = UserModel.objects.create_user(email=clean_data['email'], password=clean_data['password'],
                                                  username=clean_data['username'])
         user_obj.save()
+
         return user_obj

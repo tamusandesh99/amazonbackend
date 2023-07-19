@@ -70,8 +70,8 @@ MIDDLEWARE = [
 ]
 
 # User Model
-# AUTH_USER_MODEL = 'api.CreatorDetails'
-AUTH_USER_MODEL = 'user_profile.UserProfile'
+AUTH_USER_MODEL = 'api.CreatorDetails'
+# AUTH_USER_MODEL = 'user_profile.UserProfile'
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.IsAuthenticated'
