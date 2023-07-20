@@ -50,16 +50,16 @@ class UserLogin(APIView):
                 user = serializer.check_user(data)
                 print(user)
                 login(request, user)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response({ 'success': 'User authenticated' })
         except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Error Authenticating'})
 
 
 class UserLogout(APIView):
     def post(self, request):
         try:
             logout(request)
-            return Response({'success: Logged Out'}, status=status.HTTP_200_OK)
+            return Response({'success: Logged Out'})
         except:
             return Response({'error': 'Something went wrong when logging out'})
 
@@ -67,6 +67,7 @@ class UserLogout(APIView):
 @method_decorator(csrf_protect, name='dispatch')
 class CheckAuthenticated(APIView):
     def get(self, request, format=None):
+        print("checks")
         user = self.request.user
         try:
             isAuthenticated = user.is_authenticated
