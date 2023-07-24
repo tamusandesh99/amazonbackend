@@ -50,7 +50,7 @@ class UserLogin(APIView):
                 user = serializer.check_user(data)
                 print(user)
                 login(request, user)
-                return Response({ 'success': 'User authenticated' })
+                return Response({'success': 'User authenticated'})
         except:
             return Response({'error': 'Error Authenticating'})
 
@@ -64,7 +64,6 @@ class UserLogout(APIView):
             return Response({'error': 'Something went wrong when logging out'})
 
 
-@method_decorator(csrf_protect, name='dispatch')
 class CheckAuthenticated(APIView):
     def get(self, request, format=None):
         print("checks")
