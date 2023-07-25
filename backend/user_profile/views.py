@@ -42,18 +42,13 @@ class UpdateUserProfileView(APIView):
 class GetUserProfileAndWebsiteView(APIView):
     def get(self, request, format=None):
         try:
-            user = self.request.user
-            username = user.username
+            user_profiles = UserProfile.objects.all()
+            user_profiles_data = []
+            for profile in user_profiles:
+                username = profile.user.username
+                website_link = profile.website_link if profile.website_link else " "
+                user_profiles_data.append({'username': username, 'website_link': website_link})
 
-            user_profile = UserProfile.objects.filter(user=user).first()
-
-            if user_profile is not None and user_profile.website_link:
-                # If the user has a website link, include it in the response
-                user_profile = UserProfileSerializer(user_profile)
-                return Response({'profile': user_profile.data, 'username': str(username)})
-            else:
-                # If the user does not have a website link, return an empty string
-                return Response({'username': str(username), 'website_link': ' '})
-
+            return Response({'user_profiles': user_profiles_data})
         except:
-            return Response({'error': 'Something went wrong when retrieving profile'})
+            return Response({'error': 'Something went wrong when retrieving profiles'})
