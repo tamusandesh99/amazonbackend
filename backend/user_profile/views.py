@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import status
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -28,15 +29,21 @@ class UpdateUserProfileView(APIView):
 
             data = self.request.data
             website_link = data['website_link']
+            user_profile = UserProfile.objects.filter(user=user).first()
 
-            UserProfile.objects.filter(user=user).update(website_link=website_link)
+            if user_profile:
+                user_profile.website_link = website_link
+                user_profile.save()
 
-            user_profile = UserProfile.objects.get(user=user)
-            user_profile = UserProfileSerializer(user_profile)
-
-            return Response({'profile': user_profile.data, 'username': str(username)})
-        except:
-            return Response({'error': 'Something went wrong when updating profile'})
+                # Now, retrieve the updated instance using the serializer
+                serializer = UserProfileSerializer(user_profile)
+                return Response({'profile': serializer.data, 'username': str(username)})
+            else:
+                return Response({'error': 'UserProfile not found for the current user'},
+                                status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': 'Something went wrong when updating profile'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class GetUserProfileAndWebsiteView(APIView):
