@@ -117,6 +117,7 @@ class CreatePostView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         except Exception as e:
+            print(e)
             return Response({'error': 'Something went wrong when creating the post'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

@@ -1,3 +1,4 @@
+from django.middleware.csrf import get_token
 from rest_framework.authentication import SessionAuthentication
 from rest_framework import permissions, status
 from rest_framework.views import APIView
@@ -29,12 +30,12 @@ class UserRegister(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@method_decorator(csrf_protect, name='dispatch')
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class GetCSRFToken(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, format=None):
-        return Response({'Success: CSRF cookie set'})
+        return Response({'Success': 'CSRF Cookie set'})
 
 
 @method_decorator(csrf_protect, name='dispatch')
