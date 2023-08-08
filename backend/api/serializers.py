@@ -5,13 +5,13 @@ from django.contrib.auth import get_user_model, authenticate
 UserModel = get_user_model()
 
 
-class CreatorDetailSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ['email', 'username']
 
 
-class CreatorDetailLoginSerializer(serializers.Serializer):
+class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
 
@@ -33,7 +33,7 @@ class CreatorDetailLoginSerializer(serializers.Serializer):
         return user
 
 
-class CreatorDetailRegisterSerializer(serializers.ModelSerializer):
+class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = '__all__'

@@ -33,6 +33,8 @@ CORS_ALLOWED_ORIGINS = [
     'https://localhost:3000',
     'http://127.0.0.1:3000',
     'http://0.0.0.0',
+    'http://127.0.0.1',
+    'https://127.0.0.1'
 ]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
                         'https://localhost:3000',
@@ -43,6 +45,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SECURE = False
 # Application definition
 
 INSTALLED_APPS = [
@@ -59,14 +62,14 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 # User Model
@@ -154,3 +157,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

@@ -19,7 +19,7 @@ class UserRegister(APIView):
 
     def post(self, request):
         clean_data = custom_validation(request.data)
-        serializer = CreatorDetailRegisterSerializer(data=clean_data)
+        serializer = UserRegisterSerializer(data=clean_data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.create(clean_data)
             if user:
@@ -46,10 +46,9 @@ class UserLogin(APIView):
     def post(self, request):
         data = request.data
         try:
-            serializer = CreatorDetailLoginSerializer(data=data)
+            serializer = UserLoginSerializer(data=data)
             if serializer.is_valid(raise_exception=True):
                 user = serializer.check_user(data)
-                print(user)
                 login(request, user)
                 return Response({'success': 'User authenticated'})
         except:
@@ -67,7 +66,6 @@ class UserLogout(APIView):
 
 class CheckAuthenticated(APIView):
     def get(self, request, format=None):
-        print("checks")
         user = self.request.user
         try:
             isAuthenticated = user.is_authenticated
@@ -84,5 +82,5 @@ class UserView(APIView):
     authentication_classes = (SessionAuthentication,)
 
     def get(self, request):
-        serializer = CreatorDetailSerializer(request.user)
+        serializer = UserProfileSerializer(request.user)
         return Response({'self': serializer.data}, status=status.HTTP_200_OK)

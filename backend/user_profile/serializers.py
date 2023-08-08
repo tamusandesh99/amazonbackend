@@ -3,6 +3,7 @@ from .models import UserProfile, Post
 
 
 class PostSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Post
         fields = ['title', 'website_link', 'tech_stack']  # Replace with your desired fields

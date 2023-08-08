@@ -13,7 +13,6 @@ class GetUserProfileView(APIView):
         try:
             user = self.request.user
             username = user.username
-            print(user)
             user_profile = UserProfile.objects.get(user=user)
             user_profile = UserProfileSerializer(user_profile)
 
@@ -81,17 +80,16 @@ class GetUserProfileAndPostsView(APIView):
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
-# class PostViewSet(viewsets.ModelViewSet):
-#     queryset = Post.objects.all()
-#     serializer_class = PostSerializer
-#
-#     def create(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         self.perform_create(serializer)
-#         headers = self.get_success_headers(serializer.data)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class CreatePostView(APIView):
@@ -108,8 +106,10 @@ class CreatePostView(APIView):
                 title=data['title'],
                 website_link=data['website_link'],
                 tech_stack=data['tech_stack'],
-                user=user  # Set the user of the post to the currently logged-in user
+                # user=user  # Set the user of the post to the currently logged-in user
             )
+
+            user.userprofile.posts.add(post)
             # Serialize the post data
             serializer = PostSerializer(post)
 
