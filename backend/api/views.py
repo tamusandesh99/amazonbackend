@@ -59,7 +59,7 @@ class UserLogout(APIView):
     def post(self, request):
         try:
             logout(request)
-            return Response({'success: Logged Out'})
+            return Response({'success': 'Logged Out'})
         except:
             return Response({'error': 'Something went wrong when logging out'})
 

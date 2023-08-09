@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, permissions
 from rest_framework.generics import CreateAPIView
 
 from rest_framework.views import APIView
@@ -52,6 +52,8 @@ class UpdateUserProfileView(APIView):
 
 
 class GetUserProfileAndPostsView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
     def get(self, request, format=None):
         try:
             user_profiles = UserProfile.objects.all()
