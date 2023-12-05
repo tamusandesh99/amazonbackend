@@ -26,8 +26,7 @@ class UserRegister(APIView):
                 UserProfile.objects.create(user=user)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            print(clean_data)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')

@@ -11,8 +11,8 @@ CustomUser = get_user_model()
 class Post(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    images = ArrayField(models.ImageField(upload_to='images/'), blank=True)
-    links = ArrayField(models.URLField(), blank=True)
+    images = ArrayField(models.ImageField(upload_to='images/'), blank=True, default=list)
+    links = ArrayField(models.URLField(), blank=True, default=list)
 
     def __str__(self):
         return self.title
