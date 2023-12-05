@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from django.db import models
@@ -9,11 +10,12 @@ CustomUser = get_user_model()
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
-    website_link = models.CharField(max_length=255)
-    tech_stack = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    images = ArrayField(models.ImageField(upload_to='images/'), blank=True)
+    links = ArrayField(models.URLField(), blank=True)
 
     def __str__(self):
-        return self.website_link
+        return self.title
 
 
 class UserProfile(models.Model):

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import status, viewsets, permissions
 from rest_framework.generics import CreateAPIView
-
+from random import sample
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import UserProfile, Post
@@ -82,6 +82,51 @@ class GetUserProfileAndPostsView(APIView):
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+from random import sample
+
+
+class GetTopFivePosts(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format=None):
+        try:
+            user_profiles = UserProfile.objects.all()
+            random_posts_data = []
+            total_random_posts = 0
+
+            for user_profile in user_profiles:
+                # Get all posts of the user profile
+                posts = user_profile.posts.all()
+
+                # Randomly select posts from the user profile's posts
+                random_user_posts = sample(list(posts), min(len(posts), 5 - total_random_posts))
+
+                for post in random_user_posts:
+                    # Serialize the user profile data
+                    user_profile_serializer = UserProfileSerializer(user_profile)
+                    user_data = user_profile_serializer.data
+                    username = user_profile.user.username
+
+                    # Serialize the post data
+                    post_serializer = PostSerializer(post)
+                    post_data = post_serializer.data
+                    post_data['username'] = username
+
+                    random_posts_data.append(post_data)
+                    total_random_posts += 1
+
+                    if total_random_posts == 5:
+                        break
+
+                if total_random_posts == 5:
+                    break
+
+            return Response({'random_posts': random_posts_data})
+        except Exception as e:
+            return Response({'error': 'Something went wrong when retrieving random posts'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -106,8 +151,9 @@ class CreatePostView(APIView):
             # Create a new post and set the user to the currently logged-in user
             post = Post.objects.create(
                 title=data['title'],
-                website_link=data['website_link'],
-                tech_stack=data['tech_stack'],
+                description=data['description'],
+                images=data['images'],
+                links=data['links']
                 # user=user  # Set the user of the post to the currently logged-in user
             )
 
