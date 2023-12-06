@@ -6,7 +6,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['title', 'description', 'images', 'link']
+        fields = ['title', 'description', 'images', 'links']
 
     def create(self, validated_data):
         user_profile = self.context['user_profile']  # Get the user profile from the view context
