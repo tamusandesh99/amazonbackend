@@ -158,6 +158,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_BUCKET_NAME = 'reviewershub'
+DEFAULT_FILE_STORAGE = my_secrets.DEFAULT_FILE_STORAGE
+GS_BUCKET_NAME = my_secrets.GS_BUCKET_NAME
+GS_PROJECT_ID = my_secrets.GS_PROJECT_ID
+GS_CREDENTIALS = my_secrets.GS_CREDENTIALS
 
