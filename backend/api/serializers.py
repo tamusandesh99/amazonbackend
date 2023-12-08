@@ -8,7 +8,7 @@ UserModel = get_user_model()
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ['email', 'username']
+        fields = ['username', 'password']
 
 
 class UserLoginSerializer(serializers.Serializer):

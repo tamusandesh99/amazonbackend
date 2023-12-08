@@ -45,9 +45,3 @@ def validate_password(data):
         raise ValidationError('a password is needed')
     return True
 
-
-def validate_website(data):
-    website_link = data['website_link'].strip()
-    if not website_link:
-        raise ValidationError('website link is needed')
-    return True
