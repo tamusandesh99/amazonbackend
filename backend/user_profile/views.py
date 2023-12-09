@@ -118,7 +118,6 @@ class CreatePostView(APIView):
             user.userprofile.posts.add(post)
             # Serialize the post data
             serializer = PostSerializer(post)
-
             # Return the serialized post data in the response
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
