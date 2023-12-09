@@ -10,8 +10,8 @@ CustomUser = get_user_model()
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=1000)
     images = ArrayField(models.TextField(), blank=True, default=list, null=True)
     links = ArrayField(models.URLField(), default=list, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
