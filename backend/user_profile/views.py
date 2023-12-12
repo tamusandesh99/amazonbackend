@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import status, viewsets, permissions
 from rest_framework.generics import CreateAPIView
 from random import sample
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import UserProfile, Post
@@ -118,6 +119,7 @@ class CreatePostView(APIView):
             user.userprofile.posts.add(post)
             # Serialize the post data
             serializer = PostSerializer(post)
+            print(serializer.data)
             # Return the serialized post data in the response
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -125,5 +127,15 @@ class CreatePostView(APIView):
             print(e)
             return Response({'error': 'Something went wrong when creating the post'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class DynamicPostSearch(APIView):
+    def get(self, request, title, format=None):
+        print('ok')
+        post = get_object_or_404(Post, title=title)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+
+
 
 
