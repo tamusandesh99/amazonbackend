@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import status, viewsets, permissions
 from rest_framework.generics import CreateAPIView
 from random import sample
+from rest_framework.permissions import AllowAny
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -130,6 +131,8 @@ class CreatePostView(APIView):
 
 
 class DynamicPostSearch(APIView):
+    permission_classes = (permissions.AllowAny,)
+
     def get(self, request, title, format=None):
         post = get_object_or_404(Post, title=title)
         username = post.user_profile.user.username
