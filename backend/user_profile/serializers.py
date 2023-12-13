@@ -9,7 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['title', 'description', 'images', 'links', 'likes', 'comments', 'timestamp']
 
     def create(self, validated_data):
-        user_profile = self.context['user_profile']  # Get the user profile from the view context
+        user_profile = self.context['request'].user.userprofile  # Get the user profile from the view context
         post = Post.objects.create(user_profile=user_profile, **validated_data)
         return post
 

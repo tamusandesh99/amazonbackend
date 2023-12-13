@@ -17,6 +17,7 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)  # Initialize likes as 0
     comments = ArrayField(models.CharField(max_length=255), default=list, blank=True)
+    user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

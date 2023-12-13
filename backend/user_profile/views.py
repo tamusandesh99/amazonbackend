@@ -112,14 +112,14 @@ class CreatePostView(APIView):
                 title=data['title'],
                 description=data['description'],
                 images=data['images'],
-                links=data['links']
+                links=data['links'],
+                user_profile=user.userprofile
                 # user=user  # Set the user of the post to the currently logged-in user
             )
 
             user.userprofile.posts.add(post)
             # Serialize the post data
             serializer = PostSerializer(post)
-            print(serializer.data)
             # Return the serialized post data in the response
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -131,11 +131,8 @@ class CreatePostView(APIView):
 
 class DynamicPostSearch(APIView):
     def get(self, request, title, format=None):
-        print('ok')
         post = get_object_or_404(Post, title=title)
-        serializer = PostSerializer(post)
-        return Response(serializer.data)
-
-
-
-
+        username = post.user_profile.user.username
+        post_serializer = PostSerializer(post)
+        data = {'post': post_serializer.data, 'username': username}
+        return Response(data)
