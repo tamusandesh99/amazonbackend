@@ -134,7 +134,8 @@ class DynamicPostSearch(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, title, format=None):
-        post = get_object_or_404(Post, title=title)
+        formatted_title = title.replace('_', ' ')
+        post = get_object_or_404(Post, title=formatted_title)
         username = post.user_profile.user.username
         post_serializer = PostSerializer(post)
         data = {'post': post_serializer.data, 'username': username}
