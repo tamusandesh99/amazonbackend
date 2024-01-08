@@ -146,24 +146,24 @@ class SortingPosts(APIView):
 
     def get(self, request, sorting_style=None, format=None):
         try:
+            # Retrieve all posts from all user profiles
+            all_posts = []
             user_profiles = UserProfile.objects.all()
-            user_profiles_data = []
 
             for profile in user_profiles:
-                # Retrieve all posts of the user profile
                 posts = profile.posts.all()
+                all_posts.extend(posts)
 
-                # Serialize the posts data
-                post_serializer = PostSerializer(posts, many=True)
-                posts_data = post_serializer.data
+            # Serialize the combined posts data
+            post_serializer = PostSerializer(all_posts, many=True)
+            combined_posts_data = post_serializer.data
 
-                # Sort posts based on the specified sorting style
-                if sorting_style:
-                    posts_data = self.sort_posts(posts_data, sorting_style)
+            # Sort the combined posts based on the specified sorting style
+            if sorting_style:
+                combined_posts_data = self.sort_posts(combined_posts_data, sorting_style)
 
-                # Add the posts data to the user profile data
-                user_data = {'username': profile.user.username, 'posts': posts_data}
-                user_profiles_data.append(user_data)
+            # Create a list of dictionaries with 'username' and 'posts'
+            user_profiles_data = [{'username': profile.user.username, 'posts': combined_posts_data} for profile in user_profiles]
 
             return Response({'user_profiles': user_profiles_data})
         except Exception as e:
@@ -171,6 +171,7 @@ class SortingPosts(APIView):
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def sort_posts(self, posts_data, sorting_style):
+        print(sorting_style)
         now = timezone.now()
         if sorting_style.lower() == 'hot':
             # Customize sorting logic for 'Hot'
