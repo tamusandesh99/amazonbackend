@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.utils import timezone
+from datetime import datetime
 from rest_framework import status, viewsets, permissions
 from operator import itemgetter
 from django.shortcuts import get_object_or_404
@@ -154,40 +155,38 @@ class SortingPosts(APIView):
                 posts = profile.posts.all()
                 all_posts.extend(posts)
 
-            # Serialize the combined posts data
-            post_serializer = PostSerializer(all_posts, many=True)
-            combined_posts_data = post_serializer.data
-
             # Sort the combined posts based on the specified sorting style
             if sorting_style:
-                combined_posts_data = self.sort_posts(combined_posts_data, sorting_style)
+                all_posts = self.sort_posts(all_posts, sorting_style)
 
-            # Create a list of dictionaries with 'username' and 'posts'
-            user_profiles_data = [{'username': profile.user.username, 'posts': combined_posts_data} for profile in user_profiles]
+            # Create a list of dictionaries with 'username' and 'post'
+            user_profiles_data = []
 
-            return Response({'user_profiles': user_profiles_data})
+            for post in all_posts:
+                user_profiles_data.append(
+                    {'username': post.user_profile.user.username, 'post': PostSerializer(post).data})
+
+            return Response({'Posts': user_profiles_data})
         except Exception as e:
             return Response({'error': 'Something went wrong when retrieving profiles'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def sort_posts(self, posts_data, sorting_style):
-        print(sorting_style)
         now = timezone.now()
+
         if sorting_style.lower() == 'hot':
             # Customize sorting logic for 'Hot'
             # For example, based on likes and recency
-            posts_data.sort(key=itemgetter('likes', 'timestamp'), reverse=True)
-        elif sorting_style.lower() == 'mostcomment':
+            posts_data.sort(key=lambda x: (x.likes, x.timestamp), reverse=True)
+        elif sorting_style.lower() == 'mostcomments':
             # Customize sorting logic for 'Most Comment'
             # For example, based on the number of comments
-            posts_data.sort(key=lambda x: len(x.get('comments', [])), reverse=True)
+            posts_data.sort(key=lambda x: len(x.comments), reverse=True)
         elif sorting_style.lower() == 'mostlikes':
             # Customize sorting logic for 'Most Likes'
             # For example, based on the number of likes
-            posts_data.sort(key=itemgetter('likes'), reverse=True)
+            posts_data.sort(key=lambda x: x.likes, reverse=True)
         elif sorting_style.lower() == 'recent':
-            # Customize sorting logic for 'Recent'
-            # For example, based on recency
-            posts_data.sort(key=lambda x: (now - x.get('timestamp')).total_seconds())
+            posts_data.sort(key=lambda x: x.id, reverse=True)
 
         return posts_data
