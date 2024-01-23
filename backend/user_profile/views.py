@@ -142,6 +142,7 @@ class DynamicPostSearch(APIView):
         return Response(data)
 
 
+# comeback when sorting in backend seems reasonable
 class SortingPosts(APIView):
     permission_classes = (permissions.AllowAny,)
 
