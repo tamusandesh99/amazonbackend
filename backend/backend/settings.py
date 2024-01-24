@@ -26,7 +26,7 @@ SECRET_KEY = my_secrets.SECRET_KEY_D
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
@@ -34,6 +34,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://localhost:5000',
     'https://localhost:5000',
+    'http://127.0.0.1:5000',
     'http://127.0.0.1:3000',
     'http://0.0.0.0',
     'http://127.0.0.1',
@@ -47,12 +48,15 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
                         'https://localhost:5000',
                         'http://127.0.0.1:5000',
                         'https://127.0.0.1:5000',
+                        'http://127.0.0.1:5000',
                         'http://0.0.0.0']
 
 CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True  # Set to True in production (requires HTTPS)
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = 'Lax'
 # Application definition
 
 INSTALLED_APPS = [
@@ -69,8 +73,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
