@@ -1,3 +1,4 @@
 backend/.env
 backend/my_secrets.py
 cloud-storage-key.json
+.env
