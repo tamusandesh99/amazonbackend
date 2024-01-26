@@ -1,4 +1,4 @@
-
+import psycopg2
 
 from . import my_secrets
 
@@ -6,20 +6,16 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-
-import                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                psycopg2
+load_dotenv(dotenv_path="./.env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = my_secrets.SECRET_KEY_D
+SECRET_KEY = os.environ.get('SECRET_KEY_D')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG')
 
 # ALLOWED_HOSTS = ['*']
 
@@ -64,12 +60,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'whitenoise.runserver_nostatic',
     'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -117,13 +115,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': my_secrets.DATABASE,
-        'USER': my_secrets.USERNAME,
-        'PASSWORD': my_secrets.PASSWORD,
-        'HOST': my_secrets.HOST,
-        'PORT': my_secrets.PORT,
+        'NAME': os.environ.get('DATABASE'),
+        'USER': os.environ.get('USERNAME'),
+        'PASSWORD': os.environ.get('PASSWORD'),
+        'HOST': os.environ.get('HOST'),
+        'PORT': os.environ.get('PORT'),
     }
 }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -164,8 +164,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_FILE_STORAGE = my_secrets.DEFAULT_FILE_STORAGE
-GS_BUCKET_NAME = my_secrets.GS_BUCKET_NAME
-GS_PROJECT_ID = my_secrets.GS_PROJECT_ID
-GS_CREDENTIALS = my_secrets.GS_CREDENTIALS
+DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE')
+GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
+GS_PROJECT_ID = os.environ.get('GS_PROJECT_ID')
+GS_CREDENTIALS = os.environ.get('GS_CREDENTIALS')
 

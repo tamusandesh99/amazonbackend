@@ -68,7 +68,6 @@ class GetUserProfileAndPostsView(APIView):
                 username = profile.user.username
                 # Retrieve all posts of the user profile
                 posts = profile.posts.all()
-
                 # Serialize the posts data
                 post_serializer = PostSerializer(posts, many=True)
                 posts_data = post_serializer.data
