@@ -3,6 +3,7 @@ import psycopg2
 from . import my_secrets
 
 import os
+import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -113,14 +114,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE'),
-        'USER': os.environ.get('USERNAME'),
-        'PASSWORD': os.environ.get('PASSWORD'),
-        'HOST': os.environ.get('HOST'),
-        'PORT': os.environ.get('PORT'),
-    }
+    'default': dj_database_url.config(
+        default='postgres://{}:{}@{}:{}/{}'.format(
+            os.environ.get('USERNAME'),
+            os.environ.get('PASSWORD'),
+            os.environ.get('HOST'),
+            os.environ.get('PORT'),
+            os.environ.get('DATABASE')
+        )
+    )
 }
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -168,4 +170,3 @@ DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE')
 GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
 GS_PROJECT_ID = os.environ.get('GS_PROJECT_ID')
 GS_CREDENTIALS = os.environ.get('GS_CREDENTIALS')
-
