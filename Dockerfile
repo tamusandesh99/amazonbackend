@@ -13,14 +13,14 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /code
 
-WORKDIR /code
+WORKDIR /code/backend
 
 COPY requirements.txt /tmp/requirements.txt
 RUN set -ex && \
     pip install --upgrade pip && \
     pip install -r /tmp/requirements.txt && \
     rm -rf /root/.cache/
-COPY . /code
+COPY backend/ /code/backend
 
 EXPOSE 8000
 

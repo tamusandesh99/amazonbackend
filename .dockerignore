@@ -2,3 +2,7 @@ fly.toml
 .git/
 *.sqlite3
 tempfordb
+
+backend/.env
+backend/backend/.env
+myenv

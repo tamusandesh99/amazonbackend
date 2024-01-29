@@ -18,7 +18,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY_D')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG')
 
-# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '[::1]',
+    'reviewershub-backend.fly.dev',
+]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
@@ -31,6 +36,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://0.0.0.0',
     'http://127.0.0.1',
     'https://127.0.0.1',
+    'https://reviewershub-backend.fly.dev',
+    'http://reviewershub-backend.fly.dev'
 ]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
                         'https://localhost:3000',
@@ -41,7 +48,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
                         'http://127.0.0.1:5000',
                         'https://127.0.0.1:5000',
                         'http://127.0.0.1:5000',
-                        'http://0.0.0.0']
+                        'https://reviewershub-backend.fly.dev']
 
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = False
@@ -114,15 +121,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://{}:{}@{}:{}/{}'.format(
-            os.environ.get('USERNAME'),
-            os.environ.get('PASSWORD'),
-            os.environ.get('HOST'),
-            os.environ.get('PORT'),
-            os.environ.get('DATABASE')
-        )
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DATABASE'),
+        'USER': os.environ.get('USERNAME'),
+        'PASSWORD': os.environ.get('PASSWORD'),
+        'HOST': os.environ.get('HOST'),
+        'PORT': os.environ.get('PORT'),
+    }
+    # 'default': dj_database_url.config(
+    #     default='postgres://{}:{}@{}:{}/{}'.format(
+    #         os.environ.get('USERNAME'),
+    #         os.environ.get('PASSWORD'),
+    #         os.environ.get('HOST'),
+    #         os.environ.get('PORT'),
+    #         os.environ.get('DATABASE')
+    #     )
+    # )
 }
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -160,6 +175,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
