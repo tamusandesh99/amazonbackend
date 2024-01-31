@@ -121,23 +121,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE'),
-        'USER': os.environ.get('USERNAME'),
-        'PASSWORD': os.environ.get('PASSWORD'),
-        'HOST': os.environ.get('HOST'),
-        'PORT': os.environ.get('PORT'),
-    }
-    # 'default': dj_database_url.config(
-    #     default='postgres://{}:{}@{}:{}/{}'.format(
-    #         os.environ.get('USERNAME'),
-    #         os.environ.get('PASSWORD'),
-    #         os.environ.get('HOST'),
-    #         os.environ.get('PORT'),
-    #         os.environ.get('DATABASE')
-    #     )
-    # )
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': os.environ.get('DATABASE'),
+    #     'USER': os.environ.get('USERNAME'),
+    #     'PASSWORD': os.environ.get('PASSWORD'),
+    #     'HOST': os.environ.get('HOST'),
+    #     'PORT': os.environ.get('PORT'),
+    # }
+    'default': dj_database_url.config(
+        default='postgres://{}:{}@{}:{}/{}'.format(
+            os.environ.get('USERNAME'),
+            os.environ.get('PASSWORD'),
+            os.environ.get('HOST'),
+            os.environ.get('PORT'),
+            os.environ.get('DATABASE')
+        )
+    )
 }
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
