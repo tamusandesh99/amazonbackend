@@ -1,10 +1,12 @@
 from django.contrib import admin
-from .models import CreatorDetails
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
+from .models import CreatorDetails
 
 
-@admin.register(User)
-class CreatorDetailModel(admin.ModelAdmin):
-    list_filter = ('username', 'email')
-    list_display = ('username', 'email')
+class CustomUserAdmin(UserAdmin):
+    list_display = ('username', 'email', 'is_staff', 'is_superuser')
+    list_filter = ('is_staff', 'is_superuser', 'email')
+
+
+admin.site.register(CreatorDetails, CustomUserAdmin)
+

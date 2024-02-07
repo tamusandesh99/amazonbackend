@@ -1,16 +1,15 @@
-from django.middleware.csrf import get_token
-from rest_framework.authentication import SessionAuthentication
-from rest_framework import permissions, status
+
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from rest_framework.authentication import SessionAuthentication
+from rest_framework import permissions, status
+from django.contrib.auth import authenticate, login, logout
 from .validations import *
 from .serializers import *
 from user_profile.models import UserProfile
-
-# Create your views here.
 
 
 @method_decorator(csrf_protect, name='dispatch')

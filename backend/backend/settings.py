@@ -23,39 +23,43 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '[::1]',
     'reviewershub-backend.fly.dev',
+    'reviewershub.com',
+    'reviewershub-frontend.web.app',
+    'reviewershub-frontend.firebaseapp.com',
+    'api.reviewershub.com',
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://localhost:3000',
     'http://127.0.0.1:3000',
-    'http://localhost:5000',
-    'https://localhost:5000',
     'http://127.0.0.1:5000',
     'http://127.0.0.1:3000',
-    'http://0.0.0.0',
-    'http://127.0.0.1',
-    'https://127.0.0.1',
+    'https://127.0.0.1:5000',
     'https://reviewershub-backend.fly.dev',
-    'http://reviewershub-backend.fly.dev'
+    'http://reviewershub-backend.fly.dev',
+    'https://reviewershub.com',
+    'https://reviewershub-frontend.web.app',
+    'https://reviewershub-frontend.firebaseapp.com',
+    'https://api.reviewershub.com',
 ]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
                         'https://localhost:3000',
                         'http://127.0.0.1:3000',
                         'https://127.0.0.1:3000',
-                        'http://localhost:5000',
-                        'https://localhost:5000',
                         'http://127.0.0.1:5000',
                         'https://127.0.0.1:5000',
-                        'http://127.0.0.1:5000',
-                        'https://reviewershub-backend.fly.dev']
+                        'https://reviewershub-backend.fly.dev',
+                        'https://reviewershub.com',
+                        'http://reviewershub.com',
+                        'https://api.reviewershub.com',
+                        ]
 
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = True  # Set to True in production (requires HTTPS)
-CSRF_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_DOMAIN = '.reviewershub-backend.fly.dev'
+
 # Application definition
 
 INSTALLED_APPS = [
