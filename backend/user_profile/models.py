@@ -15,9 +15,10 @@ class Post(models.Model):
     images = ArrayField(models.TextField(), blank=True, default=list, null=True)
     links = ArrayField(models.URLField(), default=list, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField(default=0)  # Initialize likes as 0
+    likes = models.IntegerField(default=0)
     comments = ArrayField(models.CharField(max_length=255), default=list, blank=True)
     user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    username = models.CharField(max_length=150, blank=True)
 
     def __str__(self):
         return self.title

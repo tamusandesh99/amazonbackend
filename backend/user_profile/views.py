@@ -113,7 +113,8 @@ class CreatePostView(APIView):
                 description=data['description'],
                 images=data['images'],
                 links=data['links'],
-                user_profile=user.userprofile
+                user_profile=user.userprofile,
+                username=user.username
                 # user=user  # Set the user of the post to the currently logged-in user
             )
 
